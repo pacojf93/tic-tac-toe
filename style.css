@@ -1,10 +1,21 @@
 #container {
-    height: 100vh;
+    height: 80vh;
     display: flex;
     flex-direction: column;
     gap: 15px;
     align-items: center;
     justify-content: space-around;
+}
+
+#header {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 36px;
+}
+
+#score-board {
+    display: flex;
+    gap: 45px;
+    justify-items: space-around;
 }
 
 #board-container {
@@ -24,9 +35,9 @@
     justify-content: center;
 }
 
+.score,
+#reset-button,
 #current-player {
     font-family: 'Courier New', Courier, monospace;
-    display: flex;
-    justify-content: center;
     font-size: 24px;
 }

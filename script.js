@@ -35,19 +35,29 @@ const game = (function (doc) {
     const display = (function (doc) {
         const printGameBoard = () => doc.querySelectorAll(".board-position").forEach((position) => position.textContent = gameBoard.getBoard()[position.id])
         const printCurrentPlayer = () => doc.querySelector("#current-player").textContent = `${currentPlayer.getIcon()}'s turn`
+        const printScores = function () {
+            doc.querySelector("#player-a").textContent = playerA.printScore()
+            doc.querySelector("#player-b").textContent = playerB.printScore()
+        }
         const renderDisplay = () => {
             printGameBoard()
             printCurrentPlayer()
+            printScores()
         }
         
-        return {printGameBoard, printCurrentPlayer, renderDisplay}
+        return {printGameBoard, printCurrentPlayer, renderDisplay, printScores}
     })(doc)
 
-
     const createPlayer = function (icon) {
-        const playerIcon = icon 
+        let playerIcon = icon
+        let playerScore = 0 
         const getIcon = () => playerIcon
-        return {getIcon}
+        const getScore = () => playerScore
+        const printScore = () => `${playerIcon}'s score: ${playerScore}`
+        const oneUp = () => playerScore++
+        const resetScore = () => playerScore = 0
+        const setIcon = (newIcon) => playerIcon = newIcon       
+        return {getIcon, getScore, oneUp, printScore, resetScore, setIcon}
     }
 
     const togglePlayer = function () {
@@ -65,12 +75,11 @@ const game = (function (doc) {
 
             if(gameBoard.checkForLine(currentPlayer.getIcon())) {
                 alert(`${currentPlayer.getIcon()} wins!`)
-                gameBoard.resetBoard()
-                display.printGameBoard()
+                currentPlayer.oneUp()
+                newRound()
             } else if (gameBoard.isBoardFull()) {
                 alert("draw!")
-                gameBoard.resetBoard()
-                display.printGameBoard()
+                newRound()
             }
 
             togglePlayer()
@@ -79,17 +88,40 @@ const game = (function (doc) {
         }
     }
 
+    const newRound = function () {
+        gameBoard.resetBoard()
+        display.renderDisplay()
+    }
+
+    const resetGame = function () {
+        currentPlayer = playerA
+        playerA.resetScore()
+        playerB.resetScore()
+        getPlayerNames()
+        newRound()
+    }
+
+    const getPlayerNames = function () {
+        const playerAChoice = prompt("Choose an icon for player A:")
+        const playerBChoice = prompt("Choose an icon for player B:")
+       
+        playerA.setIcon(playerAChoice?playerAChoice[0]:"x")    
+        playerB.setIcon(playerBChoice?playerBChoice[0]:"o")
+    }
+
     // initialize game
     const playerA = createPlayer("x")
     const playerB = createPlayer("o")
     let currentPlayer = playerA
 
-    return {display, gameBoard, whoseTurn, playRound, playerA, playerB, currentPlayer}
+    return {playRound, resetGame}
 })(document)
 
-game.display.renderDisplay()
+game.resetGame()
 
 document.querySelector("#board-container").addEventListener("click", (event) => {
     const position = event.target.id
     game.playRound(position)
 })
+
+document.querySelector("#reset-button").addEventListener("click", game.resetGame)
