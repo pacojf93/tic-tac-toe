@@ -1,0 +1,32 @@
+#container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#board-container {
+    display: grid;
+    grid-template-columns: repeat(3, 150px);
+    grid-template-rows: repeat(3, 150px);
+    gap: 5px;
+}
+
+.board-position {
+    border: 2px black solid;
+    border-radius: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 144px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#current-player {
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    justify-content: center;
+    font-size: 24px;
+}
