@@ -60,7 +60,7 @@ const game = (function (doc) {
         return {getIcon, getScore, oneUp, printScore, resetScore, setIcon}
     }
 
-    const togglePlayer = function () {
+    const toggleCurrentPlayer = function () {
         if (currentPlayer === playerA) currentPlayer = playerB
         else currentPlayer = playerA
     }
@@ -82,7 +82,7 @@ const game = (function (doc) {
                 newRound()
             }
 
-            togglePlayer()
+            toggleCurrentPlayer()
             display.printCurrentPlayer()
 
         }
